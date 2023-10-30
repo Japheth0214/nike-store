@@ -135,3 +135,78 @@ productButton.addEventListener("click", () => {
 close.addEventListener("click", () => {
   payment.style.display = "none";
 });
+
+function validateCardInput() {
+    var cardNumberInput = document.getElementById('cardNumberInput');
+    var expiryMonthInput = document.getElementById('expiryMonthInput');
+    var expiryYearInput = document.getElementById('expiryYearInput');
+    var cvvInput = document.getElementById('cvvInput');
+    var cardError = document.getElementById('cardError');
+
+    var firstNameInput = document.getElementById('firstNameInput');
+    var phoneNumberInput = document.getElementById('phoneNumberInput');
+    var addressInput = document.getElementById('addressInput');
+
+    // Regular expressions for Visa and MasterCard
+    var visaRegEx = /^4[0-9]{12}(?:[0-9]{3})?$/;
+    var mastercardRegEx = /^5[1-5][0-9]{14}$/;
+
+    if (
+        cardNumberInput.value === '' ||
+        expiryMonthInput.value === '' ||
+        expiryYearInput.value === '' ||
+        cvvInput.value === '' ||
+        firstNameInput.value === '' ||
+        phoneNumberInput.value === '' ||
+        addressInput.value === ''
+    ) {
+        cardError.innerHTML = "Please fill out all the input fields.";
+        cardError.style.color = 'red';
+        return;
+    }
+
+    if (!visaRegEx.test(cardNumberInput.value) && !mastercardRegEx.test(cardNumberInput.value)) {
+        cardError.innerHTML = "Please enter a valid Visa or MasterCard number.";
+        cardError.style.color = 'red';
+        return;
+    }
+
+    if (!/^(0[1-9]|1[0-2])$/.test(expiryMonthInput.value)) {
+        cardError.innerHTML = "Please enter a valid expiration month (MM).";
+        cardError.style.color = 'red';
+        return;
+    }
+
+    if (!/^20[2-9][0-9]$/.test(expiryYearInput.value)) {
+        cardError.innerHTML = "Please enter a valid expiration year (YYYY).";
+        cardError.style.color = 'red';
+        return;
+    }
+
+    if (!/^[0-9]{3}$/.test(cvvInput.value)) {
+        cardError.innerHTML = "Please enter a valid 3-digit CVV.";
+        cardError.style.color = 'red';
+        return;
+    }
+
+    // Validate phone number for the Philippines
+    var phoneRegEx = /^(09|\+639)\d{9}$/; // Philippine mobile number format
+    if (!phoneRegEx.test(phoneNumberInput.value)) {
+        cardError.innerHTML = "Please enter a valid Philippines phone number.";
+        cardError.style.color = 'red';
+        return;
+    }
+
+   // If all inputs are valid, display the success message.
+    cardError.innerHTML = "Payment checkout successful! Thank you for your purchase";
+    cardError.style.color = 'green';
+
+    // Clear all input fields
+    cardNumberInput.value = '';
+    expiryMonthInput.value = '';
+    expiryYearInput.value = '';
+    cvvInput.value = '';
+    firstNameInput.value = '';
+    phoneNumberInput.value = '';
+    addressInput.value = '';
+  }
